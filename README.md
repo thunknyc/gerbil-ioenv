@@ -27,3 +27,25 @@
 > Return a new IO environment, with input from a string port
   initialized with INPUT-STRING, and output and error associated with
   new string output ports.
+
+```
+let-ioenv ((INPUT-PORT-NAME INPUT-PORT)
+           (OUTPUT-PORT-NAME OUTPUT-PORT)
+           (ERROR-PORT-NAME OUTPUT-PORT))
+    (NAME BOUND-EXPR)
+ EXPR ...
+```
+
+> Bind to INPUT-PORT-NAME etc. the associated values. Evaluate
+  BOUND-EXPR within a dynamic environment in which CURRENT-INPUT-PORT
+  etc. have been bound to those values. Bind the resulting value to
+  NAME and evalute EXPR ...
+>
+> An example:
+```
+(let-ioenv ((in (open-input-string "(+ 1 1)"))
+              (out (open-output-string))
+              (err (open-output-string)))
+      (val (begin (displayln (eval (read))) 'done))
+    (list val (get-output-string out)))
+```
