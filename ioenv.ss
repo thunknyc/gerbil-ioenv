@@ -1,7 +1,9 @@
-(import :gerbil/core)
+(import :gerbil/core
+        :std/srfi/1)
 
 (export make-ioenv ioenv?
         ioenv-input ioenv-output ioenv-error
+        io-apply
         call-with-ioenv with-ioenv let-ioenv
         string-ioenv)
 
@@ -31,3 +33,17 @@
           (err errval))
      (let (val (with-ioenv (ioenv in out err) io-expr))
        expr1 exprn ...))))
+
+(def (fix-args args)
+  (if (null? args) args
+      (let*-values (((inline rest) (split-at args (1- (length args)))))
+        (append inline (car rest)))))
+
+(def (io-apply input-string proc . args)
+  (let-ioenv ((in (open-input-string input-string))
+              (out (open-output-string))
+              (err (open-output-string)))
+             (result (apply proc (fix-args args)))
+             `((result . ,result)
+               (output . ,(get-output-string out))
+               (error . ,(get-output-string err)))))

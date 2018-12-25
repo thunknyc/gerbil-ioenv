@@ -9,6 +9,16 @@ their IO environment.
 
 ## Usage
 
+`io-apply INPUT-STRING PROC ARG ... REST-ARGS`
+
+> Apply ARG ... REST-ARGS to PROC in a dynamic environment where
+  CURRENT-INPUT-PORT has been bound to a string input port initialized
+  with INPUT-STRING and return an association list containing three
+  keys: `'result`, `'output`, and `'error`. The `'result` key is
+  associated with the result of the evaluation whereas the `'output`
+  and `'error` keys are associated with the output to CURRENT-OUTPUT-
+  and CURRENT-ERROR-PORT, respectively.
+
 ```
 let-ioenv ((INPUT-PORT-NAME INPUT-PORT)
            (OUTPUT-PORT-NAME OUTPUT-PORT)
