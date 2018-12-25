@@ -10,7 +10,9 @@
 (defstruct ioenv (input output error) final: #t)
 
 (def (string-ioenv input)
-  (make-ioenv (open-input-string input) (open-output-string) (open-output-string)))
+  (make-ioenv (open-input-string input)
+              (open-output-string)
+              (open-output-string)))
 
 (def (call-with-ioenv ioenv thunk)
   (parameterize ((current-input-port (ioenv-input ioenv))
