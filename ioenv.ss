@@ -2,7 +2,7 @@
 
 (export make-ioenv ioenv?
         ioenv-input ioenv-output ioenv-error
-        call-with-ioenv with-ioenv
+        call-with-ioenv with-ioenv let-ioenv
         string-ioenv)
 
 (defstruct ioenv (input output error) final: #t)
