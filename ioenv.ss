@@ -3,7 +3,7 @@
 
 (export make-ioenv ioenv?
         ioenv-input ioenv-output ioenv-error
-        io-apply
+        apply/string-io begin/string-io
         call-with-ioenv with-ioenv let-ioenv
         string-ioenv)
 
@@ -39,7 +39,7 @@
       (let*-values (((inline rest) (split-at args (1- (length args)))))
         (append inline (car rest)))))
 
-(def (io-apply input-string proc . args)
+(def (apply/string-io input-string proc . args)
   (let-ioenv ((in (open-input-string input-string))
               (out (open-output-string))
               (err (open-output-string)))
@@ -47,3 +47,13 @@
              `((result . ,result)
                (output . ,(get-output-string out))
                (error . ,(get-output-string err)))))
+
+(defrules begin/string-io ()
+  ((_ input-string expr1 exprn ...)
+   (let-ioenv ((in (open-input-string input-string))
+              (out (open-output-string))
+              (err (open-output-string)))
+             (result (begin expr1 exprn ...))
+             `((result . ,result)
+               (output . ,(get-output-string out))
+               (error . ,(get-output-string err))))))
