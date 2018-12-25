@@ -44,8 +44,8 @@ let-ioenv ((INPUT-PORT-NAME INPUT-PORT)
 > An example:
 ```
 (let-ioenv ((in (open-input-string "(+ 1 1)"))
-              (out (open-output-string))
-              (err (open-output-string)))
-      (val (begin (displayln (eval (read))) 'done))
-    (list val (get-output-string out)))
+            (out (open-output-string))
+            (err (open-output-string)))
+    (val (begin (displayln (eval (read))) 'done))
+  (list val (get-output-string out)))
 ```
