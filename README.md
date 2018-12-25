@@ -48,4 +48,6 @@ let-ioenv ((INPUT-PORT-NAME INPUT-PORT)
             (err (open-output-string)))
     (val (begin (displayln (eval (read))) 'done))
   (list val (get-output-string out)))
+
+;; => '(done "2\n")
 ```
